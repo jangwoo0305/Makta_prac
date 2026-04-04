@@ -57,6 +57,6 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 15f ); 
         }
         
-        _anim.SetFloat("_speed", _speed);
+        _anim.SetFloat("_speed", dir.magnitude);
     }
 }
