@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     {
         _camera = Camera.main;
         _anim = GetComponent<Animator>();
+        
+        _destPos = transform.position;
     }
     
     void Update()
@@ -45,9 +47,11 @@ public class Player : MonoBehaviour
     {
         
         Vector3 dir = _destPos - transform.position;
+        dir.y = 0f;
         if(dir.magnitude < 0.00001f)
         {
             _anim.SetFloat("_speed", 0);
+            _destPos = transform.position;
             return;
         }
         else
@@ -57,6 +61,6 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 15f ); 
         }
         
-        _anim.SetFloat("_speed", dir.magnitude);
+        _anim.SetFloat("_speed", _speed);
     }
 }
