@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
     public GameObject _player;  
     public Vector3 _offset;
-    public float _moveSpeed = 10f;
+    public float _moveSpeed = 20f;
     public float _edgeSize = 20f;
 
     public void Start()
