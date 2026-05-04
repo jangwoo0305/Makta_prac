@@ -5,13 +5,22 @@ using UnityEngine;
 
 public class Minion : MonoBehaviour
 {
-    private int _hp;
+    [SerializeField]
     private int _maxhp = 100;
+    
+    private int _hp;
     private MinionPool _pool;
     public Define.MinionType Type;
+    public bool IsDead {get ; private set;}
+    public Action<Minion> OnDeath;
     
     MinionPool _minionPool;
-    
+
+    void OnEnable()
+    {
+        _hp = _maxhp;
+    }
+
     public void Init(MinionPool pool, Define.MinionType type)
     {
         _pool = pool;
@@ -33,6 +42,10 @@ public class Minion : MonoBehaviour
 
     public void Die()
     {
+        IsDead = true;
+        
+        OnDeath?.Invoke(this);
+        
         gameObject.SetActive(false);
         _pool.ReturnMinion(this);
     }

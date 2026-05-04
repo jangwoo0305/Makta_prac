@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     Animator _anim;
     
     private Vector3 _destPos;
+    private bool _isAttackMode = false;
     
     void Start()
     {
@@ -23,7 +24,16 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _isAttackMode = true;
+        }
+
+        if (_isAttackMode && Input.GetMouseButtonDown(0))
+        {
+            Attack();
+            _isAttackMode = false;
+        }
         if (Input.GetMouseButtonDown(1))
         {
             OnMouseClick();
@@ -62,5 +72,26 @@ public class Player : MonoBehaviour
         }
         
         _anim.SetFloat("_speed", _speed);
+    }
+
+    public void Attack()
+    {
+        Debug.Log("공격 실행됨");
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Minion")))
+        {
+            Debug.Log("뭔가 맞음: " + hit.collider.name);
+
+            Minion mini = hit.collider.GetComponentInParent<Minion>();
+
+            if (mini != null)
+            {
+                Debug.Log("미니언 맞음!");
+                mini.TakeDamage(10);
+            }
+        }
     }
 }
